@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/ratanraj/vangogh/cmd/vangoghcli/api"
+	"os"
 )
 
 func printUsage(command ...string) {
@@ -27,7 +28,8 @@ func main() {
 
 	flag.Parse()
 
-	client := api.NewAPI("http://127.0.0.1:8080/")
+	ServerEndpoint := os.Getenv("SERVER_ENDPOINT")
+	client := api.NewAPI(ServerEndpoint)
 
 	if len(flag.Args()) < 1 {
 		printUsage(flag.Args()...)

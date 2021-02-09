@@ -25,7 +25,8 @@ type API struct {
 }
 
 func NewAPI(host string) *API {
-	fp, err := os.Open("/home/ratanraj/.vangogh")
+	ConfigFile := os.Getenv("CONFIG_FILE")
+	fp, err := os.Open(ConfigFile)
 	if err != nil {
 		panic(err)
 	}
