@@ -1,11 +1,9 @@
 package web
 
 import (
-	"fmt"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 	"os"
@@ -27,35 +25,6 @@ func RunServer() {
 	r.POST("/new-user", NewUserPage)
 
 	r.StaticFile("/favicon.ico", "./web/static/favicon.ico")
-
-	var upgrader = websocket.Upgrader{
-		ReadBufferSize:  1024,
-		WriteBufferSize: 1024,
-	}
-
-	r.GET("/sockjs-node", func(c *gin.Context) {
-		conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
-		if err != nil {
-			fmt.Println(err)
-			c.Abort()
-			return
-		}
-
-		//go func() {
-			for {
-				messageType, p, err := conn.ReadMessage()
-				if err != nil {
-					log.Println(err)
-					return
-				}
-				if err := conn.WriteMessage(messageType, p); err != nil {
-					log.Println(err)
-					return
-				}
-			}
-		//}()
-	})
-
 
 	r.GET("/login", LoginController)
 	r.GET("/callback", CallbackController)
