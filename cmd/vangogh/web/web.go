@@ -26,9 +26,10 @@ func RunServer() {
 
 	r.StaticFile("/favicon.ico", "./web/static/favicon.ico")
 
-	r.GET("/login", LoginController)
-	r.GET("/callback", CallbackController)
-
+	{ // OAuth Routes
+		r.GET("/login", LoginController)
+		r.GET("/callback", CallbackController)
+	}
 	api := r.Group("/api", UserMiddleware())
 	{
 		api.GET("/me", Me)

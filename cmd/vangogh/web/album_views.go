@@ -2,8 +2,6 @@ package web
 
 import (
 	"bytes"
-	"fmt"
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/ratanraj/vangogh/database"
 	"github.com/ratanraj/vangogh/storage"
@@ -21,11 +19,6 @@ func ListAlbums(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"albums": albums})
 	} else {
 		log.Println("no uid")
-
-		session := sessions.Default(c)
-		email := session.Get("email")
-
-		log.Println(email)
 	}
 }
 
@@ -122,10 +115,6 @@ func UploadPhoto(c *gin.Context) {
 		panic(err)
 	}
 	photo.StorageKey = key
-	fmt.Println(photo.Title)
-	fmt.Println(photo.FileName)
-	fmt.Println(photo.Size)
-	fmt.Println(photo.StorageKey)
 
 	database.DBConn.Create(&photo)
 }
