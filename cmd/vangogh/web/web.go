@@ -25,6 +25,7 @@ func RunServer() {
 	r.POST("/new-user", NewUserPage)
 
 	r.StaticFile("/favicon.ico", "./web/static/favicon.ico")
+	r.Static("/static", "./web/static/")
 
 	{ // OAuth Routes
 		r.GET("/login", LoginController)
