@@ -7,8 +7,13 @@ import (
 	"testing"
 )
 
+func init() {
+	initDB("sqlite3.db")
+}
+
 func initDB(url string) {
-	DBConn, err := gorm.Open(sqlite.Open(url), &gorm.Config{})
+	var err error
+	DBConn, err = gorm.Open(sqlite.Open(url), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
@@ -17,16 +22,13 @@ func initDB(url string) {
 }
 
 func TestUser(t *testing.T) {
-	initDB("sqlite3.db")
 	for _, tt := range []struct {
 		Username string
-		Password string
 	}{
-		{Username: "ratanraj", Password: "password123"},
-		{Username: "mani", Password: "password123"},
-		{Username: "admin", Password: "password222"},
+		{Username: "user01"},
+		{Username: "admin"},
 	} {
-		u := NewUser(tt.Username, tt.Password)
+		u := NewUser(tt.Username)
 		u.Save()
 	}
 }
