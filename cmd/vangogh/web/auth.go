@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/ratanraj/vangogh/database"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"log"
@@ -86,9 +87,13 @@ func CallbackController(c *gin.Context) {
 
 	c.Set("email", userInfo.Email)
 
+	var user database.User
+	database.DBConn.Where("email = ?", userInfo.Email).Find(&user)
+
 	session := sessions.Default(c)
 	session.Set("email", userInfo.Email)
 	session.Set("picture", userInfo.Picture)
+	session.Set("uid", user.ID)
 	session.Save()
 	c.Redirect(http.StatusTemporaryRedirect, "/")
 	//c.JSON(http.StatusOK, gin.H{"Response": userInfo})
@@ -98,6 +103,11 @@ func UserMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		email := session.Get("email")
+		u := session.Get("uid")
+
+		if uid, ok := u.(uint); ok {
+			c.Set("uid", uid)
+		}
 
 		if emailString, ok := email.(string); ok {
 			c.Set("email", emailString)

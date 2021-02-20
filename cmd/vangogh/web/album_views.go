@@ -13,7 +13,7 @@ import (
 )
 
 func ListAlbums(c *gin.Context) {
-	if uid, ok := c.Get("user"); ok {
+	if uid, ok := c.Get("uid"); ok {
 		var albums []database.Album
 		database.DBConn.Where("owner_refer = ?", uid.(uint)).Preload("Owner").Find(&albums)
 		c.JSON(http.StatusOK, gin.H{"albums": albums})
@@ -32,7 +32,7 @@ func CreateAlbum(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
-	if uid, ok := c.Get("user"); ok {
+	if uid, ok := c.Get("uid"); ok {
 		album := database.Album{
 			Title:      albumData.AlbumTitle,
 			OwnerRefer: uid.(uint),
