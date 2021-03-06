@@ -44,5 +44,5 @@ func initDB(url string) {
 func main() {
 	initDB("sqlite3.db")
 
-	web.RunServer()
+	web.RunServer(":8080")
 }

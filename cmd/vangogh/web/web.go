@@ -9,7 +9,9 @@ import (
 	"os"
 )
 
-func RunServer() {
+const DEBUG = true
+
+func RunServer(addr string) {
 	r := gin.New()
 	r.Use(gin.Logger(),
 		gin.Recovery())
@@ -52,5 +54,5 @@ func RunServer() {
 		api.DELETE("/photo/:id", DeletePhoto)
 	}
 
-	log.Fatal(r.Run())
+	log.Fatal(r.Run(addr))
 }

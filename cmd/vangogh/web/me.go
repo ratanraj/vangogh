@@ -33,7 +33,7 @@ func Home(c *gin.Context) {
 		emailString = email.(string)
 	}
 
-	c.HTML(http.StatusOK, "index.html", gin.H{"Email":emailString})
+	c.HTML(http.StatusOK, "index.html", gin.H{"URL":"http://127.0.0.1:3000","Email":emailString, "DEBUG": DEBUG})
 }
 
 func NewUserPage(c *gin.Context) {
