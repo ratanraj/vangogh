@@ -5,7 +5,6 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"log"
-	"net/http"
 	"os"
 )
 
@@ -36,12 +35,6 @@ func RunServer(addr string) {
 	api := r.Group("/api", UserMiddleware())
 	{
 		api.GET("/me", Me)
-
-		api.GET("/ping", func(c *gin.Context) {
-			if uid,ok := c.Get("user"); ok {
-				c.JSON(http.StatusOK, gin.H{"message": "Pong!", "user":uid})
-			}
-		})
 
 		api.GET("/album", ListAlbums)
 		api.PUT("/album", CreateAlbum)
